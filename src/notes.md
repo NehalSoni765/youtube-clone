@@ -17,3 +17,16 @@
 - Click on the "+ CREATE CREDENTIALS" button and select "API key."
 - A new API key will be generated. Copy this API key.
 - Replace the GOOGLE_API_KEY variable in your code with the newly generated API key.
+
+## debounce concepts
+- allow cors while using external API
+
+- type skill fast to waste for making call api so `it skip the api calls`
+
+## chalange live comment
+- DL Data Live
+    - web socket (two server connect to each other => birection data on UI and socket: no regular interval)
+        - trading app(ui with api: each ms so important)
+    - API polling (server to UI: interval)
+        - gmail(interval 10s)
+- UL Update Live

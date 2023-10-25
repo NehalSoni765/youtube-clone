@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { closeMenu } from "../redux/configSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import CommentsContainer from "../components/CommentsContainer";
+import LiveChat from "../components/LiveChat";
 
 const WatchPage = () => {
   const dispatch = useDispatch();
@@ -16,19 +18,21 @@ const WatchPage = () => {
   }, []);
 
   return (
-    <div className="col-span-11 p-3 container justify-center">
-      <div>
+    <>
+      <div className="col-span-6 p-3 container justify-center">
         <iframe
-          width="75%"
+          width="100%"
           className="h-screen object-cover "
-          src={`https://www.youtube.com/embed/awddneKbFIk?si=${id}`}
+          src={`https://www.youtube.com/embed/${id}`}
           title="YouTube video player"
-          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
         ></iframe>
+        <CommentsContainer />
       </div>
-    </div>
+      <div className="col-span-6">
+        <LiveChat videoId={id} />
+      </div>
+    </>
   );
 };
 

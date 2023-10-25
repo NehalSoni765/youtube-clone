@@ -1,13 +1,53 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { YOUTUBE_LOGO } from "../utils/constants";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { YOUTUBE_LOGO, YOUTUBE_SEARCH_API } from "../utils/constants";
 import { toggleMenu } from "../redux/configSlice";
+import { cacheResults } from "../redux/searchSlice";
 
 const Header = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchCache = useSelector((store) => store.search.cache);
   const dispatch = useDispatch();
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
+  };
+
+  useEffect(() => {
+    let timer = 0;
+    if (searchQuery) {
+      timer = setTimeout(() => {
+        if (searchCache?.[searchQuery]) {
+          setSuggestions(searchCache[searchQuery]);
+        } else {
+          getSearchSuggestion();
+        }
+      }, 200);
+    } else {
+      setSuggestions([]);
+    }
+    return () => clearInterval(timer);
+  }, [searchQuery]);
+  /**
+   * key-i
+   * - render the componet
+   * - useaEffect()
+   * - start timer () => make an api call after 200ms
+   *
+   * key-ip (within 200ms)
+   * - trigger the reconsilation process (while removing existing and start re-render it destroy current process)
+   * - render component with query search (useeffect)
+   * - start timer () => make an api call after 200ms
+   *
+   */
+  const getSearchSuggestion = async () => {
+    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+    const json = await data.json();
+    setSuggestions(json[1]);
+    //update cache
+    dispatch(cacheResults({ [searchQuery]: json[1] }));
   };
 
   return (
@@ -31,14 +71,34 @@ const Header = () => {
         <img src={YOUTUBE_LOGO} alt="Youtube Logo" className="w-32" />
       </div>
       <div className="items-center py-5 px-4 col-span-10">
-        <input
-          type="text"
-          placeholder="Search"
-          className="py-2 px-4 rounded-3xl w-6/12 border rounded-r-none border-black"
-        />
-        <button className="py-2 px-4 border rounded-r-3xl border-black bg-gray-50 hover:bg-gray-200">
-          🔍
-        </button>
+        <div>
+          <input
+            type="text"
+            placeholder="Search"
+            className="py-2 px-4 rounded-3xl w-6/12 border rounded-r-none border-black"
+            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
+          />
+          <button className="py-2 px-4 border rounded-r-3xl border-black bg-gray-50 hover:bg-gray-200">
+            🔍
+          </button>
+        </div>
+        {suggestions.length > 0 && showSuggestions && (
+          <div className="absolute bg-white py-2 w-[33rem] rounded-sm shadow-md border border-gray-100">
+            <ul>
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  className="py-2 px-3 shadow-sm hover:bg-gray-100 cursor-pointer"
+                >
+                  🔍 {suggestion}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="items-center py-8 px-4 col-span-1">
         <svg
