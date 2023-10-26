@@ -18,7 +18,7 @@ const LiveChat = ({ videoId }) => {
   useEffect(() => {
     const timer = setInterval(() => {
       dispatch(addMessage(object));
-    }, 10000);
+    }, 1500);
     return () => clearInterval(timer);
   });
 
