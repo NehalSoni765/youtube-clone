@@ -6,13 +6,13 @@ const CommentsList = ({ commentsData }) => {
 
   return (
     <div className="space-y-2">
-      {commentsData.map((comment) => (
-        <>
-          <Comment key={comment.id} data={comment} />
+      {commentsData?.map((comment) => (
+        <div key={comment.id}>
+          <Comment data={comment} />
           <div className="pl-5 border border-l-black ml-5">
             <CommentsList commentsData={comment?.replies} />
           </div>
-        </>
+        </div>
       ))}
     </div>
   );

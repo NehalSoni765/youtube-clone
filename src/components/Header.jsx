@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { YOUTUBE_LOGO, YOUTUBE_SEARCH_API } from "../utils/constants";
 import { toggleMenu } from "../redux/configSlice";
 import { cacheResults } from "../redux/searchSlice";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -68,7 +69,9 @@ const Header = () => {
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
-        <img src={YOUTUBE_LOGO} alt="Youtube Logo" className="w-32" />
+        <Link to="/">
+          <img src={YOUTUBE_LOGO} alt="Youtube Logo" className="w-32" />
+        </Link>
       </div>
       <div className="items-center py-5 px-4 col-span-10">
         <div>

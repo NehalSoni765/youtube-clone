@@ -1,7 +1,8 @@
 ## quick links
 
+- follow steps : https://developers.google.com/youtube/v3/getting-started
 - youtube auth link : https://developers.google.com/youtube/registering_an_application
-- youtube create api key = https://console.cloud.google.com/apis/credentials?pli=1&project=youtube-clone-react-402814&supportedpurview=project
+- youtube create api key = https://console.cloud.google.com/apis/credentials?pli=1&project=youtube-video-container&supportedpurview=project
 - youtube video link : https://developers.google.com/youtube/v3/docs/videos/list?apix=true
 
 # facing error in not valid API key

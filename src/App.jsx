@@ -26,7 +26,6 @@ const App = () => {
   ]);
   return (
     <Provider store={appStore}>
-      <Header />
       <RouterProvider router={appRouter} />
     </Provider>
   );
